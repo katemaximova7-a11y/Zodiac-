@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zodiac Personality Lab</title>
+<style>
+:root{--bg:#feeff6;--card:#fffaf5;--ink:#20191b;--muted:#786b70;--pink:#e8a1b3;--pink2:#d77f98;--line:#dfcbd2}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,sans-serif;line-height:1.55}
+main{max-width:850px;margin:0 auto;padding:28px 18px 50px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin:16px 0}
+h1,h2,h3{margin:.2em 0}.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;font-weight:700;color:var(--muted)}
+.subtitle{color:var(--muted)}.soft{background:#f7e4eb;border-radius:12px;padding:15px;margin:14px 0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:11px 13px;text-align:left;font-weight:700;cursor:pointer;color:var(--ink)}
+.btn:hover{border-color:var(--pink2)}.btn.selected{background:var(--pink);border-color:var(--pink2);outline:2px solid var(--pink2)}
+.primary{background:var(--pink);border-color:var(--pink2);text-align:center}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+textarea,input{width:100%;font:inherit;border:1px solid var(--line);border-radius:10px;padding:11px;background:#fff;color:var(--ink)}textarea{min-height:105px;resize:vertical}
+.hidden{display:none}.feedback{background:#f1e5dc;border-left:4px solid var(--pink2);padding:12px;margin-top:12px;border-radius:8px}
+.progress{height:7px;background:#f1e5dc;border-radius:99px;overflow:hidden}.progress span{display:block;height:100%;background:var(--pink2);width:20%}
+.small{font-size:.9rem;color:var(--muted)}.tag{display:inline-block;background:#f7e4eb;border-radius:99px;padding:4px 9px;margin:3px;font-size:.82rem}
+.selected-list{background:#f7e4eb;padding:9px 12px;border-radius:9px;margin-top:10px}
+.success{border-color:#b7cbb7}.error{border-color:#d99b9b}
+@media(max-width:600px){.grid{grid-template-columns:1fr}main{padding:18px 12px 40px}}
+</style>
+</head>
+<body>
+<main>
+<section class="card">
+<div class="eyebrow">Zodiac Personality Lab</div>
+<h1>Could this really be a Scorpio?</h1>
+<p class="subtitle">An interactive personality investigation. Choose, argue, challenge stereotypes — and submit your answers to your teacher.</p>
+<label><strong>Your name</strong></label>
+<input id="studentName" placeholder="Type your name" autocomplete="name">
+<p class="small">Your teacher will receive your answers after you click <strong>Submit my investigation</strong> at the end.</p>
+<div class="progress"><span id="progress"></span></div>
+</section>
+
+<section id="stage1" class="card">
+<div class="eyebrow">Case 1 · The first impression</div><h2>The mystery roommate</h2>
+<p>You are interviewing three people who want to share a flat. One candidate is described like this:</p>
+<div class="soft"><strong>“She is extremely organised, always checks the details twice, keeps her promises and notices immediately when something unusual happens. She is not especially talkative, but when she gives advice, she clearly knows what she is talking about.”</strong></div>
+<p>Which zodiac sign would you <em>tentatively</em> associate with this personality?</p>
+<div id="signs1" class="grid"></div>
+<textarea id="answer1" placeholder="I would associate this with ... because she seems ..."></textarea>
+<div class="actions"><button class="btn primary" id="check1">Make my case</button><button class="btn" id="show1">Reveal the vocabulary</button></div>
+<div id="feedback1"></div>
+</section>
+
+<section id="stage2" class="card hidden">
+<div class="eyebrow">Case 2 · The group chat</div><h2>Something has gone wrong</h2>
+<p>A group of friends is planning a birthday trip. At 11 p.m., the hotel cancels their booking. Read the messages and decide what each person is like.</p>
+<div class="soft">
+<p><strong>Alex:</strong> “Fine. Let's not panic. I'll call three other hotels tomorrow and work out the most rational option.”</p>
+<p><strong>Sam:</strong> “WHY does this always happen to me?! Nobody ever does anything properly.”</p>
+<p><strong>Chris:</strong> “Oh well. We'll find somewhere. And if we don't, we can have the party at home.”</p>
+<p><strong>Jamie:</strong> “Honestly, I don't really care where we go. I just want everyone to listen to me.”</p>
+</div>
+<div class="grid">
+<div><strong>Alex</strong><button class="btn word" data-word="rational">rational</button><button class="btn word" data-word="conscientious">conscientious</button></div>
+<div><strong>Sam</strong><button class="btn word" data-word="bad-tempered">bad-tempered</button><button class="btn word" data-word="devastated">devastated</button></div>
+<div><strong>Chris</strong><button class="btn word" data-word="easy-going">easy-going</button><button class="btn word" data-word="laid-back">laid-back</button></div>
+<div><strong>Jamie</strong><button class="btn word" data-word="self-centred">self-centred</button><button class="btn word" data-word="big-headed">big-headed</button></div>
+</div>
+<p><strong>Your turn:</strong> Which zodiac sign would you give each person? You can challenge the stereotype.</p>
+<textarea id="answer2" placeholder="Alex sounds ... because ... Sam might be ... However, ..."></textarea>
+<div class="actions"><button class="btn primary" id="next2">Continue the investigation</button></div><div id="feedback2"></div>
+</section>
+
+<section id="stage3" class="card hidden">
+<div class="eyebrow">Case 3 · The astrology dating show</div><h2>Red flag or unfair stereotype?</h2>
+<p>A contestant is described by the host. Decide which traits you can actually hear in the description.</p>
+<div class="soft"><strong>“He never says what he really thinks. In front of powerful people, he is charming and supportive; five minutes later, he complains about them to everyone else. He also refuses to spend money, even when his friends are struggling.”</strong></div>
+<p><strong>Which traits can you hear? Choose one or more.</strong></p>
+<div id="traits" class="grid">
+<button class="btn trait" data-trait="two-faced">two-faced</button>
+<button class="btn trait" data-trait="tight-fisted">tight-fisted</button>
+<button class="btn trait" data-trait="supportive">supportive</button>
+<button class="btn trait" data-trait="sincere">sincere</button>
+</div>
+<div id="selectedTraits" class="selected-list">Selected: <em>nothing yet</em></div>
+<p>Now imagine he is a <strong>Virgo</strong>. Would that make the description more convincing, less convincing, or make no difference?</p>
+<textarea id="answer3" placeholder="It would / wouldn't make a difference because ..."></textarea>
+<div class="actions"><button class="btn primary" id="next3">Give me a twist</button></div><div id="feedback3"></div>
+</section>
+
+<section id="stage4" class="card hidden">
+<div class="eyebrow">Case 4 · The zodiac crisis</div><h2>What happens when the situation changes?</h2>
+<p>A normally <strong>well-balanced</strong>, <strong>good-tempered</strong> person receives terrible news. Their reaction is completely unexpected.</p>
+<div class="soft"><strong>They discover that their best friend has betrayed them. They are absolutely devastated. They stop answering messages, become unusually anti-social and spend the whole weekend alone. On Monday, however, they calmly explain what happened and decide what to do next.</strong></div>
+<p>Choose up to <strong>three</strong> words that could describe different parts of this situation.</p>
+<div id="crisis" class="grid"></div>
+<textarea id="answer4" placeholder="I think ... describes the personality, whereas ... describes the reaction because ..."></textarea>
+<div class="actions"><button class="btn primary" id="next4">Final investigation</button></div><div id="feedback4"></div>
+</section>
+
+<section id="stage5" class="card hidden">
+<div class="eyebrow">Final case · Who is the sign?</div><h2>The anonymous zodiac profile</h2>
+<div class="soft"><strong>“This person is strong-willed and courageous. They are open-minded enough to listen to ideas they disagree with, but they are not easily persuaded. They are knowledgeable about almost everything they become interested in. At work they are conscientious, alert and trustworthy. They are modest about their achievements, although other people sometimes think they are gifted. They are also surprisingly chatty once they feel comfortable. Their one problem: when someone is frustrating them, they can become very bad-tempered.”</strong></div>
+<p>Choose a sign and prepare a <strong>30-second defence</strong>. Use at least <strong>6 target words</strong>.</p>
+<div id="signs5" class="grid"></div>
+<textarea id="finalAnswer" placeholder="My sign is ... I think this person is ... because ..."></textarea>
+<div class="actions"><button class="btn primary" id="submit">Submit my investigation</button><button class="btn" id="counter">Challenge my theory</button></div>
+<div id="finalFeedback"></div>
+</section>
+
+<section id="submitted" class="card hidden success">
+<h2>Investigation submitted ✓</h2>
+<p>Your answers have been sent to your teacher. You can now close this page.</p>
+</section>
+</main>
+
+<script>
+const CONFIG={SUBMIT_URL:"https://script.google.com/macros/s/AKfycbzGEpXvaFpJGUFXRnNyYJydIJPeCPbdr1rTwiRh7uVtS2QmmM5DB3vRJLJKGV8XxIS1/exec"};
+const signs=["Aries","Taurus","Gemini","Cancer","Leo","Virgo","Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces"];
+const crisisWords=["absent-minded","devastated","anti-social","rational","strong-willed","stable","sincere","supportive","courageous","well-balanced"];
+const targetWords=["absent-minded","bad-tempered","big-headed","easy-going","good-tempered","laid-back","narrow-minded","open-minded","self-centred","strong-willed","tight-fisted","two-faced","well-balanced","well-behaved","alert","anti-social","chatty","conscientious","courageous","devastated","extrovert","frustrating","gifted","heroic","introvert","knowledgeable","modest","rational","sincere","stable","supportive","trustworthy","talkative"];
+const answers={};
+let sign1="",sign5="";
+
+function makeSignButtons(id,which){
+ const box=document.getElementById(id);
+ signs.forEach(s=>{const b=document.createElement("button");b.className="btn";b.textContent=s;b.type="button";b.onclick=()=>{box.querySelectorAll("button").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");which==="one"?sign1=s:sign5=s;answers[which]=s};box.appendChild(b)});
+}
+makeSignButtons("signs1","one");makeSignButtons("signs5","five");
+
+document.querySelectorAll(".word").forEach(b=>b.onclick=()=>b.classList.toggle("selected"));
+
+const traits=[...document.querySelectorAll(".trait")];
+traits.forEach(b=>b.onclick=()=>{b.classList.toggle("selected");updateTraits()});
+function updateTraits(){const a=traits.filter(x=>x.classList.contains("selected")).map(x=>x.dataset.trait);document.getElementById("selectedTraits").innerHTML=a.length?"Selected: <strong>"+a.join(" + ")+"</strong>":"Selected: <em>nothing yet</em>"}
+
+crisisWords.forEach(w=>{const b=document.createElement("button");b.className="btn";b.type="button";b.textContent=w;b.onclick=()=>{if(!b.classList.contains("selected")&&document.querySelectorAll("#crisis .selected").length>=3)return;b.classList.toggle("selected")};document.getElementById("crisis").appendChild(b)});
+
+function go(n){for(let i=1;i<=5;i++)document.getElementById("stage"+i).classList.toggle("hidden",i!==n);document.getElementById("progress").style.width=(n*20)+"%";window.scrollTo({top:0,behavior:"smooth"})}
+function fb(id,msg){document.getElementById(id).innerHTML='<div class="feedback">'+msg+'</div>'}
+
+document.getElementById("check1").onclick=()=>{const a=document.getElementById("answer1").value.trim();if(!sign1||!a){fb("feedback1","Choose a sign and explain your reasoning first.");return}answers.case1={sign:sign1,text:a};fb("feedback1","Good. Now challenge your own theory: could another sign fit this profile?");setTimeout(()=>go(2),500)};
+document.getElementById("show1").onclick=()=>fb("feedback1","Useful vocabulary: <strong>conscientious</strong>, <strong>alert</strong>, <strong>knowledgeable</strong>, <strong>trustworthy</strong>, <strong>introvert</strong>.");
+
+document.getElementById("next2").onclick=()=>{const a=document.getElementById("answer2").value.trim();if(!a){fb("feedback2","Give your opinion about the four people first.");return}answers.case2={selectedWords:[...document.querySelectorAll("#stage2 .word.selected")].map(x=>x.dataset.word),text:a};fb("feedback2","Nice distinction: <strong>easy-going</strong> and <strong>laid-back</strong> overlap, but <strong>devastated</strong> describes an intense emotional reaction.");setTimeout(()=>go(3),500)};
+
+document.getElementById("next3").onclick=()=>{const t=traits.filter(x=>x.classList.contains("selected")).map(x=>x.dataset.trait),a=document.getElementById("answer3").value.trim();if(!t.length){fb("feedback3","Choose at least one trait above.");return}if(!a){fb("feedback3","You chose <strong>"+t.join(", ")+"</strong>. Now explain whether the Virgo label changes your judgement.");return}answers.case3={traits:t,text:a};fb("feedback3","Good. <strong>two-faced</strong> and <strong>tight-fisted</strong> fit the evidence; <strong>supportive</strong> and <strong>sincere</strong> do not fit the whole description.");setTimeout(()=>go(4),500)};
+
+document.getElementById("next4").onclick=()=>{const c=[...document.querySelectorAll("#crisis .selected")].map(x=>x.textContent),a=document.getElementById("answer4").value.trim();if(c.length<2||!a){fb("feedback4","Choose two or three words and explain personality vs reaction.");return}answers.case4={words:c,text:a};fb("feedback4","Exactly — separate stable personality traits from temporary reactions.");setTimeout(()=>go(5),500)};
+
+document.getElementById("counter").onclick=()=>{if(!sign5){fb("finalFeedback","Choose your sign first.");return}fb("finalFeedback","<strong>COUNTER-ARGUMENT:</strong> “I’m not convinced. That description sounds too well-balanced to be "+sign5+". And being strong-willed does not automatically mean being courageous. Convince me.”")};
+
+document.getElementById("submit").onclick=async()=>{
+ const name=document.getElementById("studentName").value.trim(),final=document.getElementById("finalAnswer").value.trim();
+ if(!name||!sign5||!final){fb("finalFeedback","Please enter your name, choose a final sign and write your 30-second defence.");return}
+ answers.final={sign:sign5,text:final};
+ const combined=JSON.stringify(answers);
+ const used=targetWords.filter(w=>final.toLowerCase().includes(w)).length;
+ const payload={studentName:name,submittedAt:new Date().toISOString(),case1:answers.case1||{},case2:answers.case2||{},case3:answers.case3||{},case4:answers.case4||{},final:answers.final||{},targetWordsUsedInFinal:used,rawAnswers:combined};
+ if(CONFIG.SUBMIT_URL==="YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL"){fb("finalFeedback","The exercise is ready, but your teacher has not connected the submission form yet. Ask your teacher to add the Google Apps Script URL.");return}
+ const btn=document.getElementById("submit");btn.disabled=true;btn.textContent="Submitting…";
+ try{await fetch(CONFIG.SUBMIT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});document.querySelectorAll("section[id^=stage]").forEach(x=>x.classList.add("hidden"));document.getElementById("submitted").classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"})}
+ catch(e){btn.disabled=false;btn.textContent="Submit my investigation";fb("finalFeedback","Something went wrong while sending the answers. Please tell your teacher.");}
+};
+</script>
+</body>
+</html>
